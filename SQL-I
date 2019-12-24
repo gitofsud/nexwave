@@ -1,0 +1,11 @@
+Solutions
+
+SELECT COUNT(DISTINCT job) FROM emp;
+SELECT SUM(sal) FROM emp;
+SELECT MAX(sal), MIN(sal), AVG(sal) FROM emp;
+SELECT MAX(sal) FROM emp WHERE job='SALESMAN';
+SELECT AVG(sal) FROM emp WHERE deptno = 20;
+SELECT COUNT(*), deptno FROM emp GROUP BY deptno;
+SELECT COUNT(*) FROM emp WHERE deptno = 10;
+SElECT * FROM emp WHERE job = 'MANAGER';
+SELECT DISTINCT(mgr) FROM emp ORDER BY empno;
