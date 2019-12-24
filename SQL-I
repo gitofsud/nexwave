@@ -1,11 +1,66 @@
-Solutions
+Solutions:
 
-SELECT COUNT(DISTINCT job) FROM emp;
-SELECT SUM(sal) FROM emp;
-SELECT MAX(sal), MIN(sal), AVG(sal) FROM emp;
-SELECT MAX(sal) FROM emp WHERE job='SALESMAN';
-SELECT AVG(sal) FROM emp WHERE deptno = 20;
-SELECT COUNT(*), deptno FROM emp GROUP BY deptno;
-SELECT COUNT(*) FROM emp WHERE deptno = 10;
-SElECT * FROM emp WHERE job = 'MANAGER';
-SELECT DISTINCT(mgr) FROM emp ORDER BY empno;
+SQL> SELECT COUNT(DISTINCT job) FROM emp;
+
+COUNT(DISTINCTJOB)
+------------------
+                 5
+
+SQL> SELECT SUM(sal) FROM emp;
+
+  SUM(SAL)
+----------
+     29025
+
+SQL> SELECT MAX(sal), MIN(sal), AVG(sal) FROM emp;
+
+  MAX(SAL)   MIN(SAL)   AVG(SAL)
+---------- ---------- ----------
+      5000        800 2073.21429
+
+SQL> SELECT MAX(sal) FROM emp WHERE job='SALESMAN';
+
+  MAX(SAL)
+----------
+      1600
+
+SQL> SELECT AVG(sal) FROM emp WHERE deptno = 20;
+
+  AVG(SAL)
+----------
+      2175
+
+SQL> SELECT COUNT(DISTINCT DEPTNO) FROM dept;
+
+COUNT(DISTINCTDEPTNO)
+---------------------
+                    4
+
+SQL> SELECT COUNT(*), deptno FROM emp GROUP BY deptno;
+
+  COUNT(*)     DEPTNO
+---------- ----------
+         6         30
+         5         20
+         3         10
+
+SQL> SELECT COUNT(*) FROM emp WHERE deptno = 10;
+
+  COUNT(*)
+----------
+         3
+
+SQL> SElECT * FROM emp WHERE job = 'MANAGER';
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975
+        20
+
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850
+        30
+
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450
+        10
