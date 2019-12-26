@@ -1,0 +1,157 @@
+
+SQL*Plus: Release 11.2.0.1.0 Production on Thu Dec 26 16:56:29 2019
+
+Copyright (c) 1982, 2010, Oracle.  All rights reserved.
+
+Enter user-name: scott
+Enter password:
+
+Connected to:
+Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - 64bit Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options
+
+SQL> SET LINESIZE 120
+SQL> SET PAGESIZE 120
+SQL> SELECT ename FROM emp WHERE deptno = (SELECT deptno FROM emp WHERE ename = 'MILLER');
+
+ENAME
+----------
+CLARK
+KING
+MILLER
+
+SQL> SELECT ename FROM emp WHERE sal = (SELECT MAX(sal) FROM emp);
+
+ENAME
+----------
+KING
+
+SQL> SELECT ename FROM emp WHERE sal > (SELECT MIN(sal) FROM emp WHERE deptno = 30);
+
+ENAME
+----------
+ALLEN
+WARD
+JONES
+MARTIN
+BLAKE
+CLARK
+SCOTT
+KING
+TURNER
+ADAMS
+FORD
+MILLER
+
+12 rows selected.
+
+SQL> SELECT ename FROM emp WHERE job = (SELECT job FROM emp WHERE ename = 'FORD') AND sal = (SELECT sal FROM emp WHERE ename = 'FORD');
+
+ENAME
+----------
+SCOTT
+FORD
+
+SQL> SELECT ename FROM emp WHERE sal = (SELECT MIN(sal) FROM emp);
+
+ENAME
+----------
+SMITH
+
+SQL> SELECT ename FROM emp WHERE deptno=10 AND job NOT IN (SELECT job FROM emp WHERE deptno=30);
+
+ENAME
+----------
+KING
+
+SQL> SELECT ename FROM emp WHERE mgr = (SELECT empno FROM emp WHERE ename = 'BLAKE');
+
+ENAME
+----------
+ALLEN
+WARD
+MARTIN
+TURNER
+JAMES
+
+SQL> SELECT ename FROM emp WHERE deptno = (SELECT deptno FROM dept WHERE LOC = 'CHICAGO');
+
+ENAME
+----------
+ALLEN
+WARD
+MARTIN
+BLAKE
+TURNER
+JAMES
+
+6 rows selected.
+
+SQL> SELECT ename FROM emp WHERE sal > (SELECT sal FROM emp WHERE ename = 'JONES');
+
+ENAME
+----------
+SCOTT
+KING
+FORD
+
+SQL> SELECT ename FROM emp WHERE sal = (SELECT sal FROM emp WHERE ename = 'SCOTT') OR sal = (SELECT sal FROM emp WHERE ename = 'FORD');
+
+ENAME
+----------
+SCOTT
+FORD
+
+SQL> SELECT ename FROM emp WHERE job IN (SELECT emp.job FROM emp JOIN dept ON emp.deptno = dept.deptno WHERE dept.loc = 'CHICAGO');
+
+ENAME
+----------
+TURNER
+MARTIN
+WARD
+ALLEN
+MILLER
+JAMES
+ADAMS
+SMITH
+CLARK
+BLAKE
+JONES
+
+11 rows selected.
+
+SQL> SELECT * FROM emp WHERE job = (SELECT job FROM emp WHERE ename = 'JONES');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+
+SQL> SELECT * FROM emp WHERE sal > (SELECT MAX(sal) FROM emp WHERE deptno=30);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+
+SQL> SELECT * FROM emp WHERE sal > (SELECT MIN(sal) FROM emp WHERE deptno=30);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+12 rows selected.
