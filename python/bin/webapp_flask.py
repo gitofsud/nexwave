@@ -1,11 +1,10 @@
-import bottle
+import flask
 
 # How to create website
-app = bottle.Bottle()
+app = flask.Flask('MyApp')
 
 
-# app.run() #Start the web server
-@app.error(404)
+@app.errorhandler(404)
 def errorPage(err):
     return 'The page you want to visit does not exists.'
 
@@ -28,46 +27,45 @@ def loginPage():
     <input type='submit' value='LOGIN' />'''
 
 
-@app.route('/verify', method='post')  # method should match in both like get or post
+@app.route('/verify', methods=['POST'])  # method should match in both like get or post
 def verifyPage():
-    u = bottle.request.forms.get('uname')
-    p = bottle.request.forms.get('pw')
+    u = flask.request.form['uname']
+    p = flask.request.form['pw']
     if not u == 'abc' and p == 'xyz':
         return '<b>Login Failed </b>'
     else:
-        bottle.TEMPLATE_PATH.append(r'C:\Users\lab365\Desktop\python\bin')
         import sqlite3
         con = sqlite3.connect('myDB.sqlite3')
         cur = con.cursor()
         cur.execute('SELECT * FROM LOGDATA')
         result = cur.fetchall()
-        return bottle.template('report.tpl', res=result)
+        return flask.render_template('report.html', res=result)
 
 
 @app.route('/download/<filename>')
 def staticFile(filename):
-    return bottle.static_file(root=r'C:\Users\lab365\Desktop\python\bin', filename=filename)
+    return flask.send_from_directory(directory=r'C:\Users\lab365\Desktop\python\bin', filename=filename)
 
 
-@app.route('/empid/<eid:int>')
+@app.route('/empid/<int:eid>')
 def empId(eid):
     D = {'Name': 'abc', 'EMP_ID': eid}
     return D
 
 
-@app.route('/nameid/<nid:re:[a-z0-9]+>')
+@app.route('/nameid')
 def nameId(nid):
     return str(nid)
 
 
 @app.route('/logdata')
 def logdata():
-    return bottle.redirect('/login')
+    return flask.redirect('/login')
 
 
 @app.route('/passwords')
 def passwords():
-    return bottle.abort(201, 'Access DeniedX')
+    return flask.abort(201, 'Access DeniedX')
 
 
 app.run(host='192.168.3.198', port=8080)
